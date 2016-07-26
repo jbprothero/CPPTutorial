@@ -30,7 +30,7 @@ void swapCard(Card &cardX, Card &cardY)
 	cardY = tempCard;
 }
 
-//Executes a series of random swaps to shuffle the deck of cards. Used in gameLoop()
+//Execute a series of random swaps to shuffle the deck of cards. Used in gameLoop()
 void shuffleDeck(Deck_t &deck, std::uniform_int_distribution<int> &shuffle, std::mt19937 &mersenne)
 {
 	for (int card = 0; card < 52; card++)
@@ -81,7 +81,7 @@ void printDeck(const Hand_t &hand)
 	}
 }
 
-//Prints the current score of the player & dealer. Used in playBlackjack()
+//Print the current score of the player & dealer. Used in playBlackjack()
 void printScore(const Player &user, const Player &dealer)
 {
 	std::cout << "Player: " << user.score << '\t';
@@ -93,7 +93,7 @@ void printScore(const Player &user, const Player &dealer)
 }
 
 //Return the value of a card in Blackjack. Used in dealCard()
-int getCardValue(const Card &card, const int score)
+int getCardValue(const Card &card)
 {
 	switch (card.rank)
 	{
@@ -108,10 +108,10 @@ int getCardValue(const Card &card, const int score)
 	}
 }
 
-//Deals a new card off the top of the deck into the current player's hand, and adjusts for Ace flexibility. Used in playBlackjack()
+//Deal a card from the deck into the current Player's hand and adjust the Player's score. Used in playBlackjack()
 void dealCard(const Card &card, Player &player)
 {
-	player.score += getCardValue(card, player.score);
+	player.score += getCardValue(card);
 	player.hand.push_back(card);
 	if (card.rank == ACE)
 	{
@@ -122,10 +122,9 @@ void dealCard(const Card &card, Player &player)
 		player.score -= 10;
 		player.aces--;
 	}
-
 }
 
-//Simulates a single game of blackjack. Used in gameLoop()
+//Simulate a single game of blackjack. Used in gameLoop()
 bool playBlackjack(const Deck_t &deck)
 {
 	using std::cout;
@@ -208,7 +207,7 @@ bool playBlackjack(const Deck_t &deck)
 	}
 }
 
-//Includes playBlackjack() in a loop that counts winrate to allow multiple plays in one execution
+//Execute playBlackjack() in a loop that tracks winrate. Each game uses a newly shuffled deck
 void gameLoop(Deck_t &deck, std::uniform_int_distribution<int> &shuffle, std::mt19937 &mersenne)
 {
 	std::cout << "Welcome to Blackjack!\n";
